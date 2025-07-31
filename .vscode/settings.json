@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Face your Demons.sln"
+    "dotnet.defaultSolution": "FaceYourDemons.sln"
 }
