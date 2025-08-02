@@ -1,0 +1,1 @@
+public class EntityEventListener : GameEventListener<Entity, EntityEvent, UnityEntityEvent> {}

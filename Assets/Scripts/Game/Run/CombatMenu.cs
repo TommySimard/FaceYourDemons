@@ -6,32 +6,16 @@ public class CombatMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _entityInformationPrefab;
     [SerializeField] private GameObject _entitySkillListPrefab;
+    [SerializeField] private GameObject _skillUseInformationPrefab;
 
     public GameObject EntityInformation { get; private set; }
     public GameObject EntitySkillList { get; private set; }
-
-    public Entity SelectedEntity { get; private set; }
+    public GameObject SkillUseInformation { get; private set; }
 
     void Start()
     {
         EntityInformation = Instantiate(_entityInformationPrefab, transform.position, Quaternion.identity);
         EntitySkillList = Instantiate(_entitySkillListPrefab, transform.position, Quaternion.identity);
-    }
-
-    private void ChangeSelectedEntity(Entity entity)
-    {
-        if (entity.Type == EntityType.Hero)
-        {
-            SelectedEntity = entity;
-        }
-        else
-        {
-
-        }
-    }
-
-    private void SelectAbility()
-    {
-        // TODO
+        SkillUseInformation = Instantiate(_skillUseInformationPrefab, transform.position, Quaternion.identity);
     }
 }

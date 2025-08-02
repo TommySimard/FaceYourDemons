@@ -1,4 +1,4 @@
-public enum CombatStatus
+public enum RunStatus
 {
     Default,
     Won,

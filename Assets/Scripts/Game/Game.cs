@@ -1,16 +1,17 @@
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private HeroParty _heroPartyPrefab;
-    [SerializeField] private Combat _combatPrefab;
+    [SerializeField] private Run _runPrefab;
+    [SerializeField] private List<ClassSO> _defaultClasses;
+    [SerializeField] private CombatManager _combatManagerPrefab;
+    [SerializeField] private EntityUpgrader _entityUpgraderPrefab;
 
-    public PartyPitter PartyPitter { get; private set; }
+    public CombatManager CombatManager { get; private set; }
     public EntityUpgrader EntityUpgrader { get; private set; }
-    public HeroParty HeroParty { get; private set; }
+    public List<ClassSO> SelectedClasses { get; private set; }
+    public Run Run { get; private set; }
 
     public static Game Instance { get; private set; }
 
@@ -28,8 +29,14 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        HeroParty = Instantiate(_heroPartyPrefab, transform.position, Quaternion.identity);
+        SelectedClasses ??= _defaultClasses;
 
-        HeroParty.Init();
+        CombatManager = Instantiate(_combatManagerPrefab, transform.position, Quaternion.identity);
+        EntityUpgrader = Instantiate(_entityUpgraderPrefab, transform.position, Quaternion.identity);
+        Run = Instantiate(_runPrefab, transform.position, Quaternion.identity);
+
+        CombatManager.Init();
+        EntityUpgrader.Init();
+        Run.Init(SelectedClasses);
     }
 }

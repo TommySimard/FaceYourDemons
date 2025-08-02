@@ -8,7 +8,7 @@ public class IntReference
     [SerializeField] private int constantValue;
     [SerializeField] private IntVariable variable;
 
-    public float Value
+    public int Value
     {
         get { return useConstant ? constantValue : variable.Value; }
     }

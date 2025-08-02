@@ -1,0 +1,1 @@
+public class SkillEventListener : GameEventListener<Skill, SkillEvent, UnitySkillEvent> {}
