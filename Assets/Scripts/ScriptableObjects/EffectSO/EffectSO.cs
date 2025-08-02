@@ -3,5 +3,5 @@ using UnityEngine;
 
 public abstract class EffectSO : ScriptableObject
 {
-    public abstract void Use(List<Entity> sources, List<Entity> targets);
+    public abstract void Use(int modifier, List<Entity> targets);
 }

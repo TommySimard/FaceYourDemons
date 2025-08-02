@@ -13,7 +13,6 @@ public abstract class Entity : MonoBehaviour
     public Stats Stats { get; private set; }
     public List<Ability> Abilities { get; private set; } = new();
     public Headspace Headspace { get; private set; }
-    public EntityType Type { get; private set; }
     public int Level { get; private set; } = 1;
 
     private void Start()
@@ -24,19 +23,18 @@ public abstract class Entity : MonoBehaviour
     public void Init(ClassSO classSO)
     {
         Class = classSO;
-        Type = classSO.Type;
-        // Stats = new Stats(classSO.StatsSO);
+        Stats = new Stats(classSO.StatsSO);
         Headspace = Instantiate(_headspacePrefab, transform.position, Quaternion.identity);
-        Level = _startingLevel;  
+        Level = _startingLevel;
     }
 
-    private void UseAbility()
+    public Stat GetStat(StatName statName)
     {
-        // TODO
+        return Stats.Get(statName);
     }
 
-    private void CheckStatus()
+    public void SetStat(StatName statName, int value)
     {
-        // TODO
+        Stats.Get(statName).SetValue(value);
     }
 }

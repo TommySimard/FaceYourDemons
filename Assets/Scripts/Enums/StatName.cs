@@ -1,11 +1,11 @@
-public enum StatType
+public enum StatName
 {
-    DEFAULT,
+    Default,
     HP,
     MP,
     MGC,
     STR,
-    DEF,
+    SHI,
     SPE,
     ATK,
     DEX,
