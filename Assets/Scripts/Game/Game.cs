@@ -8,9 +8,9 @@ public class Game : MonoBehaviour
     [SerializeField] private HeroParty _heroPartyPrefab;
     [SerializeField] private Combat _combatPrefab;
 
+    public PartyPitter PartyPitter { get; private set; }
     public EntityUpgrader EntityUpgrader { get; private set; }
     public HeroParty HeroParty { get; private set; }
-    public List<Combat> Combats { get; private set; } = new();
 
     public static Game Instance { get; private set; }
 
@@ -29,9 +29,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         HeroParty = Instantiate(_heroPartyPrefab, transform.position, Quaternion.identity);
-        Combats.Add(Instantiate(_combatPrefab, transform.position, Quaternion.identity));
 
         HeroParty.Init();
-        Combats.First().Init();
     }
 }
