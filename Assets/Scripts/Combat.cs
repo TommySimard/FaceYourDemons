@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Combat : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<Turn> Turns { get; private set; }
+    public HeroParty HeroParty { get; private set; }
+    public EnemyParty EnemyParty { get; private set; }
+
+    private void Start()
     {
-        
+        // TODO
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init()
     {
-        
+
+    }
+
+    private void InitializeEnemyParty()
+    {
+        // TODO
     }
 }

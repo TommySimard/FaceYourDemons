@@ -1,18 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Stat : MonoBehaviour
+public class Stat
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public StatType Type { get; private set; }
+    public int Min { get; private set; }
+    public int Max { get; private set; }
+    public int Value { get; private set; }
 }

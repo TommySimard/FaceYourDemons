@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class AbilityList : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // TODO
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SelectAbility()
     {
-        
+        // TODO
     }
 }

@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class EnemyParty : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Enemy _enemyPrefab = new();
+    [SerializeField] private List<ClassSO> _classSOs = new();
+    [SerializeField] private int _partySize = 4;
+
+    public List<Entity> Enemies { get; private set; } = new();
+
+    private void Start()
     {
-        
+        // TODO
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init()
     {
-        
+        InitializeEnemies();
+    }
+
+    private void InitializeEnemies()
+    {
+        Enemy enemy;
+
+        foreach (ClassSO classSO in _classSOs)
+        {
+            enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+
+            enemy.Init(classSO);
+            Enemies.Add(enemy);
+        }
     }
 }

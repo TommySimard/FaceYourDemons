@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Stats : MonoBehaviour
+public class Stats
 {
-    // Start is called before the first frame update
-    void Start()
+    public Stat HP { get; private set; }
+    public Stat MP { get; private set; }
+    public Stat MGC { get; private set; }
+    public Stat STR { get; private set; }
+    public Stat DEF { get; private set; }
+    public Stat SPE { get; private set; }
+    public Stat ATK { get; private set; }
+    public Stat DEX { get; private set; }
+    public Stat STRESS { get; private set; }
+
+    private void Awake()
     {
-        
+        // TODO        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init()
     {
-        
+        // TODO
     }
 }

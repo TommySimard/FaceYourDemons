@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Action : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Entity ActingEntity { get; private set; }
+    public AbilityList AbilityList { get; private set; }
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // TODO
     }
 }

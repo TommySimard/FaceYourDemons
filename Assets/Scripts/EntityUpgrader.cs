@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class EntityUpgrader : MonoBehaviour
 {
+    public Entity EntityToUpgrade { get; private set; }
+    public List<Ability> AbilityChoices { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // TODO
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SelectAbility()
     {
-        
+        // TODO
     }
 }

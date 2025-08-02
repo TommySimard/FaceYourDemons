@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Headspace : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int Level { get; private set; }
+    public Combat Combat { get; private set; }
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // TODO
     }
 }

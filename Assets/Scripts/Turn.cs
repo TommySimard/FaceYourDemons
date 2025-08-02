@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Turn : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public List<Action> ActionsInOrder { get; private set; }
+    public List<Action> UsedActions { get; private set; }
+
     void Start()
     {
-        
+        // TODO
     }
 
-    // Update is called once per frame
-    void Update()
+    private void IncrementTurn()
     {
-        
+        // TODO
+    }
+
+    private void InitializeActions()
+    {
+        // TODO
     }
 }

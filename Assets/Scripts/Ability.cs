@@ -1,18 +1,24 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Ability : MonoBehaviour
+public class Ability
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly Action<List<Entity>, List<Entity>> _use;
+
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public List<Trigger> Triggers { get; private set; }
+
+    public Ability(AbilitySO abilitySO)
     {
-        
+        _use = abilitySO.Use;
+
+        Name = abilitySO.name;
+        Description = abilitySO.Description;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Use(List<Entity> sources, List<Entity> targets)
     {
-        
-    }
+        _use?.Invoke(sources, targets);
+    }  
 }
