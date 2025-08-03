@@ -2,23 +2,31 @@ using System.Collections.Generic;
 
 public struct Turn
 {
-    public List<Play> Plays { get; private set; }
-    public int TurnProgress { get; private set; }
-    public CombatStatus Status { get; private set; }
-    public EntityType PartyType { get; private set; }
+    public Stack<Play> Plays { get; private set; }
+    public TurnStatus Status { get; private set; }
+    public IParty Party { get; private set; }
 
-    public Turn(EntityType partyType)
+    public Turn(IParty party)
     {
+        Party = party;
         Plays = new();
-        TurnProgress = Plays.Count;
-        Status = CombatStatus.InProgress;
-        PartyType = partyType;
+        Status = TurnStatus.InProgress;
     }
 
-    public void AddPlay(Play lastPlay)
+    public void CreatePlay(Skill skillUsed)
     {
-        Plays.Add(lastPlay);
+        Play newPlay = new Play(skillUsed);
 
-        TurnProgress = Plays.Count;
+        Plays.Push(newPlay);
+    }
+
+    public void CheckStatus()
+    {
+        if (!Party.HasActiveEntity())
+        {
+            Status = TurnStatus.Done;
+
+            Party.ReactivateEntities();
+        }
     }
 }

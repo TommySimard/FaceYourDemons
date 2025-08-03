@@ -3,10 +3,10 @@ using UnityEngine;
 
 public struct Combat
 {
-    private HeroParty _heroParty;
+    private readonly HeroParty _heroParty;
 
     public EnemyParty EnemyParty { get; private set; }
-    public List<Turn> Turns { get; private set; }
+    public Stack<Turn> Turns { get; private set; }
     public CombatStatus Status { get; private set; }
 
     public Combat(HeroParty heroParty, EnemyParty enemyParty)
@@ -15,6 +15,29 @@ public struct Combat
         EnemyParty = enemyParty;
         Turns = new();
         Status = CombatStatus.InProgress;
+
+        Turns.Push(CreateTurn());
+    }
+
+    public Turn CreateTurn()
+    {
+        Turn newTurn;
+
+        if ((Turns.Count + 1) % 2 == 0)
+        {
+            newTurn = new Turn(EnemyParty);
+        }
+        else
+        {
+            newTurn = new Turn(_heroParty);
+        }
+
+        return newTurn;
+    }
+
+    public void NextTurn()
+    {
+        Turns.Push(CreateTurn());
     }
 
     public void CheckStatus()
@@ -31,6 +54,13 @@ public struct Combat
         if (EnemyParty.Status == PartyStatus.Defeated)
         {
             Status = CombatStatus.Won;
+        }
+
+        Turns.Peek().CheckStatus();
+
+        if (Turns.Peek().Status == TurnStatus.Done)
+        {
+            NextTurn();
         }
     }
 }

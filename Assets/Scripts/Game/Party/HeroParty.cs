@@ -10,16 +10,16 @@ public class HeroParty : MonoBehaviour, IParty
     public List<Entity> Entities { get; private set; } = new();
     public PartyStatus Status { get; private set; } = PartyStatus.Default;
 
-    public void Init(List<ClassSO> selectedClasses)
+    public void Init(List<ClassSO> selectedClassSOs)
     {
-        InitializeEntities(selectedClasses);
+        InitializeEntities(selectedClassSOs);
     }
 
-    private void InitializeEntities(List<ClassSO> selectedClasses)
+    private void InitializeEntities(List<ClassSO> selectedClassSOs)
     {
         Hero hero;
 
-        foreach (ClassSO classSO in selectedClasses)
+        foreach (ClassSO classSO in selectedClassSOs)
         {
             hero = Instantiate(_heroPrefab, transform.position, Quaternion.identity);
 
@@ -31,12 +31,12 @@ public class HeroParty : MonoBehaviour, IParty
     public void CheckStatus()
     {
         foreach (Entity hero in Entities)
-        {
-            if (hero.Status != EntityStatus.Dead)
             {
-                return;
+                if (hero.Status != EntityStatus.Dead)
+                {
+                    return;
+                }
             }
-        }
 
         Status = PartyStatus.Defeated;
     }

@@ -5,6 +5,7 @@ public abstract class Entity : MonoBehaviour
 {
     [SerializeField] protected Headspace _headspacePrefab;
     [SerializeField] protected int _startingLevel = 1;
+    [SerializeField] protected SkillEvent _skillUsedEvent;
 
     public EntityType Type { get; protected set; }
     public Class Class { get; protected set; }
@@ -44,6 +45,10 @@ public abstract class Entity : MonoBehaviour
     public void Act(Skill skillToUse)
     {
         skillToUse.Use(skillToUse.Sources, skillToUse.Targets);
+
+        IsActive = false;
+
+        _skillUsedEvent.Raise(skillToUse);
     }
 
     public void Activate()

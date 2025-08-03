@@ -5,9 +5,11 @@ using UnityEngine;
 public class Run : MonoBehaviour
 {
     [SerializeField] private HeroParty _heroPartyPrefab;
+    [SerializeField] private EnemyParty _enemyPartyPrefab;
 
     public HeroParty HeroParty { get; private set; }
-    public List<Combat> Combats { get; private set; } = new();
+    public Stack<Combat> Combats { get; private set; } = new();
+    public List<Combat> WonCombats { get; private set; } = new();
     public RunStatus Status { get; private set; } = RunStatus.InProgress;
 
     public static Run Instance { get; private set; }
@@ -29,15 +31,47 @@ public class Run : MonoBehaviour
         HeroParty = Instantiate(_heroPartyPrefab, transform.position, Quaternion.identity);
 
         HeroParty.Init(selectedClasses);
+
+        Combats.Push(CreateCombat());
+    }
+
+    public Combat CreateCombat()
+    {
+        EnemyParty enemyParty = Instantiate(_enemyPartyPrefab, transform.position, Quaternion.identity);
+
+        enemyParty.Init();
+
+        return new Combat(HeroParty, enemyParty);
+    }
+
+    public void NextCombat()
+    {
+        WonCombats.Add(Combats.Pop());
+
+        if (Combats.Count < 1)
+        {
+            Combats.Push(CreateCombat());
+        }
     }
 
     public void CheckStatus()
     {
-        Combats.Last().CheckStatus();
+        Combats.Peek().CheckStatus();
 
-        if (Combats.Last().Status == CombatStatus.Lost)
+        if (Combats.Peek().Status == CombatStatus.Lost)
         {
             Status = RunStatus.Lost;
         }
+        else if (Combats.Peek().Status == CombatStatus.Won)
+        {
+            NextCombat();
+        }
+    }
+
+    public void CreatePlay(Skill skillUsed)
+    {
+        Combats.Peek().Turns.Peek().CreatePlay(skillUsed);
+
+        CheckStatus();
     }
 }

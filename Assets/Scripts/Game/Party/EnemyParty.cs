@@ -4,22 +4,38 @@ using UnityEngine;
 public class EnemyParty : MonoBehaviour, IParty
 {
     [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private List<ClassSO> _enemyClassSOs;
     [SerializeField] private int _maxPartySize = 4;
     [SerializeField] private int _entityOffset;
 
     public List<Entity> Entities { get; private set; } = new();
     public PartyStatus Status { get; private set; } = PartyStatus.Default;
 
-    public void Init(List<ClassSO> generatedClasses)
+    public void Init()
     {
-        InitializeEntities(generatedClasses);
+        InitializeEntities(GetRandomClassSOs());
     }
 
-    private void InitializeEntities(List<ClassSO> generatedClasses)
+    public List<ClassSO> GetRandomClassSOs()
+    {
+        List<ClassSO> randomClassSOs = new();
+        int partySize = Random.Range(0, _maxPartySize);
+        ClassSO randomClassSO;
+    
+        for (int i = 0; i < partySize; i++)
+        {
+            randomClassSO = _enemyClassSOs[Random.Range(0, _enemyClassSOs.Count)];
+            randomClassSOs.Add(randomClassSO);
+        }
+
+        return randomClassSOs;
+    }
+
+    private void InitializeEntities(List<ClassSO> randomClassSOs)
     {
         Enemy enemy;
 
-        foreach (ClassSO classSO in generatedClasses)
+        foreach (ClassSO classSO in randomClassSOs)
         {
             enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
 
