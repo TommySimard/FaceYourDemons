@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyParty : MonoBehaviour, IParty
@@ -9,9 +10,12 @@ public class EnemyParty : MonoBehaviour, IParty
     [SerializeField] private int _entityOffset;
 
     public List<Entity> Entities { get; private set; } = new();
+    public List<Entity> ActiveEntities => Entities.Where(e => e.IsActive).ToList();
     public PartyStatus Status { get; private set; } = PartyStatus.Default;
+    public EntityType Type { get; } = EntityType.Monster;
+    public int ActiveEntityCount => Entities.Count(e=> e.IsActive);
 
-    public void Init()
+    public void Init(List<ClassSO> classSOs)
     {
         InitializeEntities(GetRandomClassSOs());
     }
@@ -56,25 +60,12 @@ public class EnemyParty : MonoBehaviour, IParty
 
         Status = PartyStatus.Defeated;
     }
-    
+
     public void ReactivateEntities()
     {
         foreach (Entity entity in Entities)
         {
             entity.Activate();
         }
-    }
-
-    public bool HasActiveEntity()
-    {
-        foreach (Entity entity in Entities)
-        {
-            if (entity.IsActive)
-            {
-                return true;
-            }
-        }
-        
-        return false;
     }
 }

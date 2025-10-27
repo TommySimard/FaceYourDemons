@@ -1,32 +1,16 @@
-using System.Collections.Generic;
-
-public struct Turn
+public class Turn
 {
-    public Stack<Play> Plays { get; private set; }
-    public TurnStatus Status { get; private set; }
-    public IParty Party { get; private set; }
+    public readonly Entity Actor;
+    public readonly Skill Action;
 
-    public Turn(IParty party)
+    public Turn(Entity actor, Skill action)
     {
-        Party = party;
-        Plays = new();
-        Status = TurnStatus.InProgress;
+        Actor = actor;
+        Action = action;
     }
 
-    public void CreatePlay(Skill skillUsed)
+    public void Execute()
     {
-        Play newPlay = new Play(skillUsed);
-
-        Plays.Push(newPlay);
-    }
-
-    public void CheckStatus()
-    {
-        if (!Party.HasActiveEntity())
-        {
-            Status = TurnStatus.Done;
-
-            Party.ReactivateEntities();
-        }
+        Actor.UseSkill(Action);
     }
 }

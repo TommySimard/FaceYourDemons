@@ -1,11 +1,15 @@
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] protected Headspace _headspacePrefab;
     [SerializeField] protected int _startingLevel = 1;
     [SerializeField] protected SkillEvent _skillUsedEvent;
+    [SerializeField] protected EntityVariable _hoveredEntity;
+    [SerializeField] protected EntityVariable _selectedEntity;
+    [SerializeField] protected SkillReference _selectedSkill;
 
     public EntityType Type { get; protected set; }
     public Class Class { get; protected set; }
@@ -29,7 +33,36 @@ public abstract class Entity : MonoBehaviour
         Headspace = Instantiate(_headspacePrefab, transform.position, Quaternion.identity);
         Level = _startingLevel;
 
-        Skills.Add(new Skill(classSO.SkillSO));
+        Skills.Add(new Skill(classSO.SkillSO, this));
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (_selectedEntity.Value == null)
+        {
+            _selectedEntity.Value = this;
+        }
+        else if (_selectedEntity.Value == this)
+        {
+            _selectedEntity.Value = null;
+        }
+        else
+        {
+            if (_selectedSkill.Value != null)
+            {
+                _selectedEntity.Value = null;
+            }
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _hoveredEntity.Value = this;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _hoveredEntity.Value = null;
     }
 
     public Stat GetStat(StatName statName)
@@ -42,7 +75,7 @@ public abstract class Entity : MonoBehaviour
         Stats.Get(statName).SetValue(value);
     }
 
-    public void Act(Skill skillToUse)
+    public void UseSkill(Skill skillToUse)
     {
         skillToUse.Use(skillToUse.Sources, skillToUse.Targets);
 

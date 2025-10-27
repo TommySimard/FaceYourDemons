@@ -1,66 +1,70 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-public struct Combat
+public class Combat
 {
-    private readonly HeroParty _heroParty;
+    public HeroParty Heroes { get; }
+    public EnemyParty Monsters { get; private set; }
+    public CombatStatus Status { get; private set; } = CombatStatus.Pending;
+    public Round CurrentRound { get; private set; }
+    public int RoundCount { get; private set; }
 
-    public EnemyParty EnemyParty { get; private set; }
-    public Stack<Turn> Turns { get; private set; }
-    public CombatStatus Status { get; private set; }
-
-    public Combat(HeroParty heroParty, EnemyParty enemyParty)
+    public Combat(HeroParty heroes, EnemyParty monsters)
     {
-        _heroParty = heroParty;
-        EnemyParty = enemyParty;
-        Turns = new();
-        Status = CombatStatus.InProgress;
+        Heroes = heroes;
+        Monsters = monsters;
 
-        Turns.Push(CreateTurn());
+        NextRound();
     }
 
-    public Turn CreateTurn()
+    private void NextRound()
     {
-        Turn newTurn;
+        if (Status != CombatStatus.Pending) return;
 
-        if ((Turns.Count + 1) % 2 == 0)
+        IParty actingParty = (RoundCount % 2 == 0) ? Heroes : Monsters;
+
+        CurrentRound = new Round(actingParty);
+        RoundCount++;
+    }
+
+    public void ExecuteCurrentTurn(Turn turn)
+    {
+        if (turn == null) return;
+
+        turn.Execute();
+
+        CheckStatus();
+
+        if (Status == CombatStatus.Pending)
         {
-            newTurn = new Turn(EnemyParty);
+            if (Round.Status == RoundStatus.Done)
+            {
+                NextRound();
+            }
         }
         else
         {
-            newTurn = new Turn(_heroParty);
+
         }
-
-        return newTurn;
-    }
-
-    public void NextTurn()
-    {
-        Turns.Push(CreateTurn());
     }
 
     public void CheckStatus()
     {
-        _heroParty.CheckStatus();
+        Heroes.CheckStatus();
 
-        if (_heroParty.Status == PartyStatus.Defeated)
+        if (Heroes.Status == PartyStatus.Defeated)
         {
             Status = CombatStatus.Lost;
+
+            return;
         }
 
-        EnemyParty.CheckStatus();
+        Monsters.CheckStatus();
 
-        if (EnemyParty.Status == PartyStatus.Defeated)
+        if (Monsters.Status == PartyStatus.Defeated)
         {
             Status = CombatStatus.Won;
-        }
 
-        Turns.Peek().CheckStatus();
-
-        if (Turns.Peek().Status == TurnStatus.Done)
-        {
-            NextTurn();
+            return;
         }
     }
 }

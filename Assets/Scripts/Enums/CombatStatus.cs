@@ -3,5 +3,5 @@ public enum CombatStatus
     Default,
     Won,
     Lost,
-    InProgress,
+    Pending,
 }

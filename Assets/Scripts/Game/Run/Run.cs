@@ -10,7 +10,7 @@ public class Run : MonoBehaviour
     public HeroParty HeroParty { get; private set; }
     public Stack<Combat> Combats { get; private set; } = new();
     public List<Combat> WonCombats { get; private set; } = new();
-    public RunStatus Status { get; private set; } = RunStatus.InProgress;
+    public RunStatus Status { get; private set; } = RunStatus.Pending;
 
     public static Run Instance { get; private set; }
 
@@ -70,7 +70,7 @@ public class Run : MonoBehaviour
 
     public void CreatePlay(Skill skillUsed)
     {
-        Combats.Peek().Turns.Peek().CreatePlay(skillUsed);
+        
 
         CheckStatus();
     }
